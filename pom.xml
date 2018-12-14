@@ -6,11 +6,10 @@
 
   <groupId>io.ytcode</groupId>
   <artifactId>geometry</artifactId>
-  <version>1.0.0</version>
-
+  <version>0.0.1</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>Geometry library for Java</description>
+  <description>A geometry library for Java</description>
   <url>https://github.com/wangyuntao/geometry</url>
 
   <licenses>
