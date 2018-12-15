@@ -14,6 +14,6 @@ public class PointIsInsideRectangleDemo extends RectangularCoordinateCanvas {
 
   @Override
   protected boolean colorPoint(int x, int y) {
-    return Point.isInsideRectangle(100, 100, 50, 0, 0, 135, x, y);
+    return Point.isInsideRectangle(0, 0, 100, 100, 50, 135, x, y);
   }
 }

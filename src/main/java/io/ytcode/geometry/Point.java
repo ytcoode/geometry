@@ -118,12 +118,12 @@ public class Point {
   }
 
   public static boolean isInsideRectangle(
+      int rx,
+      int ry,
       int rcxOffset,
       int rcyOffset,
       int halfWidth,
       int halfHeight,
-      int rx,
-      int ry,
       int angle,
       int x,
       int y) {
@@ -147,13 +147,13 @@ public class Point {
   }
 
   public static boolean isInsideRectangle(
-      int rcxOffset, int halfWidth, int halfHeight, int rx, int ry, int angle, int x, int y) {
-    return isInsideRectangle(rcxOffset, 0, halfWidth, halfHeight, rx, ry, angle, x, y);
+      int rx, int ry, int rcxOffset, int halfWidth, int halfHeight, int angle, int x, int y) {
+    return isInsideRectangle(rx, ry, rcxOffset, 0, halfWidth, halfHeight, angle, x, y);
   }
 
   public static boolean isInsideRectangle(
-      int halfWidth, int halfHeight, int rx, int ry, int angle, int x, int y) {
-    return isInsideRectangle(0, halfWidth, halfHeight, rx, ry, angle, x, y);
+      int rx, int ry, int halfWidth, int halfHeight, int angle, int x, int y) {
+    return isInsideRectangle(rx, ry, 0, halfWidth, halfHeight, angle, x, y);
   }
 
   // 判断点是否在圆形范围内

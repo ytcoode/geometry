@@ -45,12 +45,12 @@ public class Circle {
   }
 
   public static boolean intersectsRectangle(
+      int rx,
+      int ry,
       int rcxOffset,
       int rcyOffset,
       int halfWidth,
       int halfHeight,
-      int rx,
-      int ry,
       int angle,
       int cx,
       int cy,
@@ -68,21 +68,21 @@ public class Circle {
   }
 
   public static boolean intersectsRectangle(
+      int rx,
+      int ry,
       int rcxOffset,
       int halfWidth,
       int halfHeight,
-      int rx,
-      int ry,
       int angle,
       int cx,
       int cy,
       int r) {
-    return intersectsRectangle(rcxOffset, 0, halfWidth, halfHeight, rx, ry, angle, cx, cy, r);
+    return intersectsRectangle(rx, ry, rcxOffset, 0, halfWidth, halfHeight, angle, cx, cy, r);
   }
 
   public static boolean intersectsRectangle(
-      int halfWidth, int halfHeight, int rx, int ry, int angle, int cx, int cy, int r) {
-    return intersectsRectangle(0, halfWidth, halfHeight, rx, ry, angle, cx, cy, r);
+      int rx, int ry, int halfWidth, int halfHeight, int angle, int cx, int cy, int r) {
+    return intersectsRectangle(rx, ry, 0, halfWidth, halfHeight, angle, cx, cy, r);
   }
 
   // 是否与圆相交
