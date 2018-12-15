@@ -6,7 +6,7 @@
 
   <groupId>io.ytcode</groupId>
   <artifactId>geometry</artifactId>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>A geometry library for Java</description>
