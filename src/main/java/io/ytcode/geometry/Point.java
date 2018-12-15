@@ -17,31 +17,31 @@ public class Point {
   }
 
   // 逆时针旋转
-  public static long rotateCounterclockwise(int centerX, int centerY, int x, int y, int angle) {
+  public static long rotateCounterclockwise(int cx, int cy, int x, int y, int angle) {
     checkAngle(angle);
-    int deltaX = subtractExact(x, centerX);
-    int deltaY = subtractExact(y, centerY);
+    int deltaX = subtractExact(x, cx);
+    int deltaY = subtractExact(y, cy);
 
     double sin = Geometry.sin(angle);
     double cos = Geometry.cos(angle);
 
-    x = Math.addExact(centerX, Utils.round(deltaX * cos - deltaY * sin));
-    y = Math.addExact(centerY, Utils.round(deltaX * sin + deltaY * cos));
+    x = Math.addExact(cx, Utils.round(deltaX * cos - deltaY * sin));
+    y = Math.addExact(cy, Utils.round(deltaX * sin + deltaY * cos));
 
     return toPoint(x, y);
   }
 
   // 顺时针旋转
-  public static long rotateClockwise(int centerX, int centerY, int x, int y, int angle) {
+  public static long rotateClockwise(int cx, int cy, int x, int y, int angle) {
     checkAngle(angle);
-    int deltaX = subtractExact(x, centerX);
-    int deltaY = subtractExact(y, centerY);
+    int deltaX = subtractExact(x, cx);
+    int deltaY = subtractExact(y, cy);
 
     double sin = Geometry.sin(angle);
     double cos = Geometry.cos(angle);
 
-    x = Math.addExact(centerX, Utils.round(deltaX * cos + deltaY * sin));
-    y = Math.addExact(centerY, Utils.round(deltaY * cos - deltaX * sin));
+    x = Math.addExact(cx, Utils.round(deltaX * cos + deltaY * sin));
+    y = Math.addExact(cy, Utils.round(deltaY * cos - deltaX * sin));
 
     return toPoint(x, y);
   }

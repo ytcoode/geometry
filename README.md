@@ -38,10 +38,10 @@ System.out.println(b);
 // Polygon
 Polygon polygon =
     Polygon.from(new int[] {0, 50, 100, 0, -100, -50}, new int[] {0, -50, 0, 50, 0, -50});
-b = polygon.intersectsCircle(0, 0, 10);
+b = polygon.intersectsCircle(50, 50, 45, 0, 0, 10);
 System.out.println(b);
 
-// For more details, see JavaDoc, tests and visual demos
+// For more details, see API, tests and visual demos
 ```
 
 ## Screenshots
@@ -58,9 +58,9 @@ Circle.intersectsRectangle
 
 ![Image of AStar](images/Circle_intersectsRectangle.png)
 
-RotatablePolygon.intersectsCircle
+Polygon.intersectsCircle
 
-![Image of AStar](images/RotatablePolygon_intersectsCircle.png)
+![Image of AStar](images/Polygon_intersectsCircle.png)
 
 <!-- references -->
 

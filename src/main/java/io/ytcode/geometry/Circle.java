@@ -45,10 +45,10 @@ public class Circle {
   }
 
   public static boolean intersectsRectangle(
-      int anchorPointX,
-      int anchorPointY,
-      int anchorPointOffsetX, // 当矩形水平放置时，anchorPointX和centerPointX的距离
-      int anchorPointOffsetY, // 同理
+      int rcx,
+      int rcy,
+      int rcxOffset, // 当矩形水平放置时，anchorPointX和centerPointX的距离
+      int rcyOffset, // 同理
       int halfWidth,
       int halfHeight,
       int angle,
@@ -59,20 +59,20 @@ public class Circle {
     checkAngle(angle);
     angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
 
-    long p = Point.rotateCounterclockwise(anchorPointX, anchorPointY, cx, cy, angle);
+    long p = Point.rotateCounterclockwise(rcx, rcy, cx, cy, angle);
     cx = getX(p);
     cy = getY(p);
 
-    int centerX = subtractExact(anchorPointX, anchorPointOffsetX);
-    int centerY = subtractExact(anchorPointY, anchorPointOffsetY);
+    rcx = subtractExact(rcx, rcxOffset);
+    rcy = subtractExact(rcy, rcyOffset);
 
-    return intersectsRectangle(centerX, centerY, halfWidth, halfHeight, cx, cy, r);
+    return intersectsRectangle(rcx, rcy, halfWidth, halfHeight, cx, cy, r);
   }
 
   public static boolean intersectsRectangle(
-      int anchorPointX,
-      int anchorPointY,
-      int anchorPointOffsetX, // 当矩形水平放置时，anchorPointX和centerPointX的距离
+      int rcx,
+      int rcy,
+      int rcxOffset, // 当矩形水平放置时，anchorPointX和centerPointX的距离
       int halfWidth,
       int halfHeight,
       int angle,
@@ -81,7 +81,7 @@ public class Circle {
       int r) {
 
     return intersectsRectangle(
-        anchorPointX, anchorPointY, anchorPointOffsetX, 0, halfWidth, halfHeight, angle, cx, cy, r);
+        rcx, rcy, rcxOffset, 0, halfWidth, halfHeight, angle, cx, cy, r);
   }
 
   // 是否与圆相交
@@ -186,5 +186,4 @@ public class Circle {
   public static long randomPoint(int cx, int cy, int r) {
     return randomPointOnTheEdge(cx, cy, ThreadLocalRandom.current().nextInt(r));
   }
-
 }

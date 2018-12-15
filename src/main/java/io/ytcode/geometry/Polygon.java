@@ -5,10 +5,13 @@ import java.util.Arrays;
 import static io.ytcode.geometry.Point.getX;
 import static io.ytcode.geometry.Point.getY;
 import static io.ytcode.geometry.Utils.check;
+import static io.ytcode.geometry.Utils.checkAngle;
 import static java.lang.Math.addExact;
 import static java.lang.Math.subtractExact;
 
 public class Polygon {
+
+  // xx,yy为当该多边形中心点为(0,0)，角度为0时的各个点
   public static Polygon from(int[] xx, int[] yy) {
     return from(xx, yy, false);
   }
@@ -66,26 +69,53 @@ public class Polygon {
     }
   }
 
-  public boolean contains(int x, int y) {
+  public boolean contains(int pcx, int pcy, int angle, int x, int y) {
+    // 先把角度旋转到0度
+    angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
+    long p = Point.rotateCounterclockwise(pcx, pcy, x, y, angle);
+    x = Point.getX(p);
+    y = Point.getY(p);
+
+    // 再把中心点移动到0
+    x = subtractExact(x, pcx);
+    y = subtractExact(y, pcy);
+
     if (!Point.isInsideRectangle(x1, x2, y1, y2, x, y)) {
       return false;
     }
     return Point.isInsidePolygon(xx, yy, x, y);
   }
 
-  public boolean intersectsCircle(int x, int y, int r) {
+  public boolean intersectsCircle(int pcx, int pcy, int angle, int cx, int cy, int r) {
+    checkAngle(angle);
+    /*
+     * 该多边形存的各种数据是在多边形中心为0，且角度为0时的情况
+     * 所以只要经过旋转、移动，把多边形和圆的相同位置移到0处，即可用该数据计算
+     */
+
+    // 先把角度旋转到0度
+    angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
+    long p = Point.rotateCounterclockwise(pcx, pcy, cx, cy, angle);
+    cx = Point.getX(p);
+    cy = Point.getY(p);
+
+    // 再把中心点移动到0
+    cx = subtractExact(cx, pcx);
+    cy = subtractExact(cy, pcy);
+
+    // 用当前数据计算
     if (!Point.isInsideRectangle(
-        subtractExact(x1, r), addExact(x2, r), subtractExact(y1, r), addExact(y2, r), x, y)) {
+        subtractExact(x1, r), addExact(x2, r), subtractExact(y1, r), addExact(y2, r), cx, cy)) {
       return false;
     }
 
-    if (Point.isInsidePolygon(xx, yy, x, y)) {
+    if (Point.isInsidePolygon(xx, yy, cx, cy)) {
       return true;
     }
 
     initRotatedEdgesIfNull();
     for (RotatedEdge edge : rotatedEdges) {
-      if (edge.intersectsCircle(x, y, r)) {
+      if (edge.intersectsCircle(cx, cy, r)) {
         return true;
       }
     }
@@ -96,7 +126,6 @@ public class Polygon {
     if (rotatedEdges != null) {
       return;
     }
-
     RotatedEdge[] r = new RotatedEdge[xx.length];
     int lx = xx[xx.length - 1];
     int ly = yy[yy.length - 1];

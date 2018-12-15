@@ -21,6 +21,6 @@ public class PolygonContainsDemo extends RectangularCoordinateCanvas {
 
   @Override
   protected boolean colorPoint(int x, int y) {
-    return polygon.contains(x, y);
+    return polygon.contains(50, -50, 45, x, y);
   }
 }

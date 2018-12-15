@@ -21,6 +21,6 @@ public class PolygonIntersectsCircleDemo extends RectangularCoordinateCanvas {
 
   @Override
   protected boolean colorPoint(int x, int y) {
-    return polygon.intersectsCircle(x, y, 20);
+    return polygon.intersectsCircle(0, 0, 90, x, y, 20);
   }
 }
