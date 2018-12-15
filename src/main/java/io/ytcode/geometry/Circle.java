@@ -13,19 +13,19 @@ public class Circle {
 
   // 判断圆形是否和规范化的矩形相交
   public static boolean intersectsRectangle(
-      int rcx, int rcy, int rHalfWidth, int rHalfHeight, int ccx, int ccy, int cr) {
+      int rcx, int rcy, int rHalfWidth, int rHalfHeight, int cx, int cy, int r) {
     // http://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
 
     // 圆心和矩形中心点的距离
-    int dx = Math.abs(subtractExact(ccx, rcx));
-    int dy = Math.abs(subtractExact(ccy, rcy));
+    int dx = Math.abs(subtractExact(cx, rcx));
+    int dy = Math.abs(subtractExact(cy, rcy));
 
     // 圆心距矩形中心过远
-    if (dx > addExact(rHalfWidth, cr)) {
+    if (dx > addExact(rHalfWidth, r)) {
       return false;
     }
 
-    if (dy > addExact(rHalfHeight, cr)) {
+    if (dy > addExact(rHalfHeight, r)) {
       return false;
     }
 
@@ -41,16 +41,16 @@ public class Circle {
     // 矩形的四个角
     dx = subtractExact(dx, rHalfWidth);
     dy = subtractExact(dy, rHalfHeight);
-    return Point.isInsideCircle(cr, dx, dy);
+    return Point.isInsideCircle(r, dx, dy);
   }
 
   public static boolean intersectsRectangle(
-      int rcx,
-      int rcy,
-      int rcxOffset, // 当矩形水平放置时，anchorPointX和centerPointX的距离
-      int rcyOffset, // 同理
+      int rcxOffset,
+      int rcyOffset,
       int halfWidth,
       int halfHeight,
+      int rx,
+      int ry,
       int angle,
       int cx,
       int cy,
@@ -59,29 +59,30 @@ public class Circle {
     checkAngle(angle);
     angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
 
-    long p = Point.rotateCounterclockwise(rcx, rcy, cx, cy, angle);
+    long p = Point.rotateCounterclockwise(rx, ry, cx, cy, angle);
     cx = getX(p);
     cy = getY(p);
 
-    rcx = subtractExact(rcx, rcxOffset);
-    rcy = subtractExact(rcy, rcyOffset);
-
-    return intersectsRectangle(rcx, rcy, halfWidth, halfHeight, cx, cy, r);
+    return intersectsRectangle(
+        addExact(rx, rcxOffset), addExact(ry, rcyOffset), halfWidth, halfHeight, cx, cy, r);
   }
 
   public static boolean intersectsRectangle(
-      int rcx,
-      int rcy,
-      int rcxOffset, // 当矩形水平放置时，anchorPointX和centerPointX的距离
+      int rcxOffset,
       int halfWidth,
       int halfHeight,
+      int rx,
+      int ry,
       int angle,
       int cx,
       int cy,
       int r) {
+    return intersectsRectangle(rcxOffset, 0, halfWidth, halfHeight, rx, ry, angle, cx, cy, r);
+  }
 
-    return intersectsRectangle(
-        rcx, rcy, rcxOffset, 0, halfWidth, halfHeight, angle, cx, cy, r);
+  public static boolean intersectsRectangle(
+      int halfWidth, int halfHeight, int rx, int ry, int angle, int cx, int cy, int r) {
+    return intersectsRectangle(0, halfWidth, halfHeight, rx, ry, angle, cx, cy, r);
   }
 
   // 是否与圆相交

@@ -118,71 +118,42 @@ public class Point {
   }
 
   public static boolean isInsideRectangle(
-      int centerX, int centerY, int halfWidth, int halfHeight, int angle, int x, int y) {
-    checkAngle(angle);
-    angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
-
-    long p = rotateCounterclockwise(centerX, centerY, x, y, angle);
-    x = getX(p);
-    y = getY(p);
-
-    return isInsideRectangle(
-        subtractExact(centerX, halfWidth),
-        addExact(centerX, halfWidth),
-        subtractExact(centerY, halfHeight),
-        addExact(centerY, halfHeight),
-        x,
-        y);
-  }
-
-  public static boolean isInsideRectangle(
-      int anchorPointX,
-      int anchorPointY,
-      int anchorPointToCenterPointOffsetX, // 当矩形水平放置时，anchorPointX和centerPointX的距离
-      int anchorPointToCenterPointOffsetY, // 同理
+      int rcxOffset,
+      int rcyOffset,
       int halfWidth,
       int halfHeight,
+      int rx,
+      int ry,
       int angle,
       int x,
       int y) {
     checkAngle(angle);
     angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
 
-    long p = rotateCounterclockwise(anchorPointX, anchorPointY, x, y, angle);
+    long p = rotateCounterclockwise(rx, ry, x, y, angle);
     x = getX(p);
     y = getY(p);
 
-    int centerX = subtractExact(anchorPointX, anchorPointToCenterPointOffsetX);
-    int centerY = subtractExact(anchorPointY, anchorPointToCenterPointOffsetY);
+    int rcx = addExact(rx, rcxOffset);
+    int rcy = addExact(ry, rcyOffset);
 
     return isInsideRectangle(
-        subtractExact(centerX, halfWidth),
-        addExact(centerX, halfWidth),
-        subtractExact(centerY, halfHeight),
-        addExact(centerY, halfHeight),
+        subtractExact(rcx, halfWidth),
+        addExact(rcx, halfWidth),
+        subtractExact(rcy, halfHeight),
+        addExact(rcy, halfHeight),
         x,
         y);
   }
 
   public static boolean isInsideRectangle(
-      int anchorPointX,
-      int anchorPointY,
-      int anchorPointToCenterPointOffsetX,
-      int halfWidth,
-      int halfHeight,
-      int angle,
-      int x,
-      int y) {
-    return isInsideRectangle(
-        anchorPointX,
-        anchorPointY,
-        anchorPointToCenterPointOffsetX,
-        0,
-        halfWidth,
-        halfHeight,
-        angle,
-        x,
-        y);
+      int rcxOffset, int halfWidth, int halfHeight, int rx, int ry, int angle, int x, int y) {
+    return isInsideRectangle(rcxOffset, 0, halfWidth, halfHeight, rx, ry, angle, x, y);
+  }
+
+  public static boolean isInsideRectangle(
+      int halfWidth, int halfHeight, int rx, int ry, int angle, int x, int y) {
+    return isInsideRectangle(0, halfWidth, halfHeight, rx, ry, angle, x, y);
   }
 
   // 判断点是否在圆形范围内

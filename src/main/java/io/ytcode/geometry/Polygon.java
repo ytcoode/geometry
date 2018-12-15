@@ -69,16 +69,16 @@ public class Polygon {
     }
   }
 
-  public boolean contains(int pcx, int pcy, int angle, int x, int y) {
+  public boolean contains(int px, int py, int angle, int x, int y) {
     // 先把角度旋转到0度
     angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
-    long p = Point.rotateCounterclockwise(pcx, pcy, x, y, angle);
+    long p = Point.rotateCounterclockwise(px, py, x, y, angle);
     x = Point.getX(p);
     y = Point.getY(p);
 
     // 再把中心点移动到0
-    x = subtractExact(x, pcx);
-    y = subtractExact(y, pcy);
+    x = subtractExact(x, px);
+    y = subtractExact(y, py);
 
     if (!Point.isInsideRectangle(x1, x2, y1, y2, x, y)) {
       return false;
@@ -86,7 +86,7 @@ public class Polygon {
     return Point.isInsidePolygon(xx, yy, x, y);
   }
 
-  public boolean intersectsCircle(int pcx, int pcy, int angle, int cx, int cy, int r) {
+  public boolean intersectsCircle(int px, int py, int angle, int cx, int cy, int r) {
     checkAngle(angle);
     /*
      * 该多边形存的各种数据是在多边形中心为0，且角度为0时的情况
@@ -95,13 +95,13 @@ public class Polygon {
 
     // 先把角度旋转到0度
     angle = Angle.getAngularDistanceByRotatingCounterclockwise(angle, 0);
-    long p = Point.rotateCounterclockwise(pcx, pcy, cx, cy, angle);
+    long p = Point.rotateCounterclockwise(px, py, cx, cy, angle);
     cx = Point.getX(p);
     cy = Point.getY(p);
 
     // 再把中心点移动到0
-    cx = subtractExact(cx, pcx);
-    cy = subtractExact(cy, pcy);
+    cx = subtractExact(cx, px);
+    cy = subtractExact(cy, py);
 
     // 用当前数据计算
     if (!Point.isInsideRectangle(
