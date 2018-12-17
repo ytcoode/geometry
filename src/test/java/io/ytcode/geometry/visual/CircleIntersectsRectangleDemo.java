@@ -14,7 +14,6 @@ public class CircleIntersectsRectangleDemo extends RectangularCoordinateCanvas {
 
   @Override
   protected boolean colorPoint(int x, int y) {
-//    return Circle.intersectsRectangle(0,0, 100, 50, x, y, 50);
-    return Circle.intersectsRectangle(0, 0, 100, 100, 50, 45, x, y, 50);
+    return Circle.intersectsRectangle(0, 0, 100, 0, 200, 100, 45, x, y, 50);
   }
 }

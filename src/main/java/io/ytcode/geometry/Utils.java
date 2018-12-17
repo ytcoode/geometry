@@ -1,7 +1,5 @@
 package io.ytcode.geometry;
 
-import static java.lang.Math.addExact;
-
 class Utils {
 
   static void check(boolean b) {
@@ -39,7 +37,15 @@ class Utils {
     return i & longMask(32);
   }
 
-  static long multiplyExactToLong(int x, int y) {
-    return Math.multiplyExact((long) x, (long) y);
+  static long multiplyExactToLong(int a, int b) {
+    return Math.multiplyExact((long) a, (long) b);
+  }
+
+  static boolean isOdd(int i) {
+    return !isEven(i);
+  }
+
+  static boolean isEven(int i) {
+    return (i & 1) == 0;
   }
 }

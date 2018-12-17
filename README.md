@@ -22,7 +22,7 @@ System.out.println("Point.rotateCounterclockwise: " + Point.getX(p) + "-" + Poin
 boolean b = Point.isInsideCircle(0, 0, 100, 50, 50);
 System.out.println("Point.isInsideCircle: " + b);
 
-b = Point.isInsideRectangle(50, 100, 10, 10, 45, 10, 10);
+b = Point.isInsideRectangle(0, 0, 200, 100, 45, 10, 10);
 System.out.println("Point.isInsideRectangle: " + b);
 
 b = Point.isInsidePolygon(new int[] {-50, 50, 0}, new int[] {0, 0, 100}, 10, 10);
@@ -32,7 +32,7 @@ System.out.println("Point.isInsidePolygon: " + b);
 b = Circle.intersectsCircle(0, 0, 10, 30, 0, 20);
 System.out.println("Circle.intersectsCircle: " + b);
 
-b = Circle.intersectsRectangle(100, 50, 10, 10, 45, 10, 10, 50);
+b = Circle.intersectsRectangle(0, 0, 100, 50, 45, 10, 10, 50);
 System.out.println("Circle.intersectsRectangle: " + b);
 
 // Polygon

@@ -6,42 +6,47 @@ import static io.ytcode.geometry.Point.getX;
 import static io.ytcode.geometry.Point.getY;
 import static io.ytcode.geometry.Point.toPoint;
 import static io.ytcode.geometry.Utils.checkAngle;
+import static io.ytcode.geometry.Utils.isEven;
 import static java.lang.Math.addExact;
 import static java.lang.Math.subtractExact;
 
 public class Circle {
 
   // 判断圆形是否和规范化的矩形相交
-  public static boolean intersectsRectangle(
-      int rcx, int rcy, int rHalfWidth, int rHalfHeight, int cx, int cy, int r) {
+  public static boolean intersectsRectangle2(
+      int x1, int x2, int y1, int y2, int cx, int cy, int r) {
     // http://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
 
-    // 圆心和矩形中心点的距离
-    int dx = Math.abs(subtractExact(cx, rcx));
-    int dy = Math.abs(subtractExact(cy, rcy));
-
-    // 圆心距矩形中心过远
-    if (dx > addExact(rHalfWidth, r)) {
+    if (!Point.isInsideRectangle(
+        subtractExact(x1, r), addExact(x2, r), subtractExact(y1, r), addExact(y2, r), cx, cy)) {
       return false;
     }
 
-    if (dy > addExact(rHalfHeight, r)) {
-      return false;
-    }
-
-    // 矩形内及矩形的四条边附近
-    if (dx <= rHalfWidth) {
+    if (cx >= x1 && cx <= x2) {
       return true;
     }
 
-    if (dy <= rHalfHeight) {
+    if (cy >= y1 && cy <= y2) {
       return true;
     }
 
-    // 矩形的四个角
-    dx = subtractExact(dx, rHalfWidth);
-    dy = subtractExact(dy, rHalfHeight);
-    return Point.isInsideCircle(r, dx, dy);
+    if (Point.isInsideCircle(x1, y1, r, cx, cy)) {
+      return true;
+    }
+
+    if (Point.isInsideCircle(x2, y1, r, cx, cy)) {
+      return true;
+    }
+
+    if (Point.isInsideCircle(x1, y2, r, cx, cy)) {
+      return true;
+    }
+
+    if (Point.isInsideCircle(x2, y2, r, cx, cy)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static boolean intersectsRectangle(
@@ -49,8 +54,8 @@ public class Circle {
       int ry,
       int rcxOffset,
       int rcyOffset,
-      int halfWidth,
-      int halfHeight,
+      int width,
+      int height,
       int angle,
       int cx,
       int cy,
@@ -63,26 +68,32 @@ public class Circle {
     cx = getX(p);
     cy = getY(p);
 
-    return intersectsRectangle(
-        addExact(rx, rcxOffset), addExact(ry, rcyOffset), halfWidth, halfHeight, cx, cy, r);
+    int rcx = addExact(rx, rcxOffset);
+    int rcy = addExact(ry, rcyOffset);
+
+    int halfWidth = width / 2;
+    int halfHeight = height / 2;
+
+    int x1 = subtractExact(rcx, halfWidth);
+    int x2 = addExact(rcx, halfWidth);
+
+    int y1 = subtractExact(rcy, halfHeight);
+    int y2 = addExact(rcy, halfHeight);
+
+    if (isEven(width)) {
+      x2 = subtractExact(x2, 1);
+    }
+
+    if (isEven(height)) {
+      y2 = subtractExact(y2, 1);
+    }
+
+    return intersectsRectangle2(x1, x2, y1, y2, cx, cy, r);
   }
 
   public static boolean intersectsRectangle(
-      int rx,
-      int ry,
-      int rcxOffset,
-      int halfWidth,
-      int halfHeight,
-      int angle,
-      int cx,
-      int cy,
-      int r) {
-    return intersectsRectangle(rx, ry, rcxOffset, 0, halfWidth, halfHeight, angle, cx, cy, r);
-  }
-
-  public static boolean intersectsRectangle(
-      int rx, int ry, int halfWidth, int halfHeight, int angle, int cx, int cy, int r) {
-    return intersectsRectangle(rx, ry, 0, halfWidth, halfHeight, angle, cx, cy, r);
+      int rx, int ry, int width, int height, int angle, int cx, int cy, int r) {
+    return intersectsRectangle(rx, ry, 0, 0, width, height, angle, cx, cy, r);
   }
 
   // 是否与圆相交

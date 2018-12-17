@@ -3,6 +3,8 @@ package io.ytcode.geometry;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PointTest {
 
@@ -20,6 +22,12 @@ public class PointTest {
       assertEquals(x, xs[i], "i=" + i);
       assertEquals(y, ys[i], "i=" + i);
     }
+
+    long p = Point.move(-100, 100, 135, -141);
+    int x = Point.getX(p);
+    int y = Point.getY(p);
+    assertEquals(x, 0);
+    assertEquals(y, 0);
   }
 
   @Test
@@ -39,5 +47,14 @@ public class PointTest {
       assertEquals(x0, xs[i], "i=" + i);
       assertEquals(y, ys[i], "i=" + i);
     }
+  }
+
+  @Test
+  void isInsideRectangle() {
+    boolean b = Point.isInsideRectangle(0, 0, 2, 2, 0, -1, 0);
+    assertTrue(b);
+
+    b = Point.isInsideRectangle(0, 0, 2, 2, 0, 1, 0);
+    assertFalse(b);
   }
 }

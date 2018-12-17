@@ -1,6 +1,7 @@
 package io.ytcode.geometry;
 
 import static io.ytcode.geometry.Utils.checkAngle;
+import static io.ytcode.geometry.Utils.isEven;
 import static io.ytcode.geometry.Utils.multiplyExactToLong;
 import static io.ytcode.geometry.Utils.toLong;
 import static java.lang.Math.addExact;
@@ -122,8 +123,8 @@ public class Point {
       int ry,
       int rcxOffset,
       int rcyOffset,
-      int halfWidth,
-      int halfHeight,
+      int width,
+      int height,
       int angle,
       int x,
       int y) {
@@ -137,23 +138,29 @@ public class Point {
     int rcx = addExact(rx, rcxOffset);
     int rcy = addExact(ry, rcyOffset);
 
-    return isInsideRectangle(
-        subtractExact(rcx, halfWidth),
-        addExact(rcx, halfWidth),
-        subtractExact(rcy, halfHeight),
-        addExact(rcy, halfHeight),
-        x,
-        y);
+    int halfWidth = width / 2;
+    int halfHeight = height / 2;
+
+    int x1 = subtractExact(rcx, halfWidth);
+    int x2 = addExact(rcx, halfWidth);
+
+    int y1 = subtractExact(rcy, halfHeight);
+    int y2 = addExact(rcy, halfHeight);
+
+    if (isEven(width)) {
+      x2 = subtractExact(x2, 1);
+    }
+
+    if (isEven(height)) {
+      y2 = subtractExact(y2, 1);
+    }
+
+    return isInsideRectangle(x1, x2, y1, y2, x, y);
   }
 
   public static boolean isInsideRectangle(
-      int rx, int ry, int rcxOffset, int halfWidth, int halfHeight, int angle, int x, int y) {
-    return isInsideRectangle(rx, ry, rcxOffset, 0, halfWidth, halfHeight, angle, x, y);
-  }
-
-  public static boolean isInsideRectangle(
-      int rx, int ry, int halfWidth, int halfHeight, int angle, int x, int y) {
-    return isInsideRectangle(rx, ry, 0, halfWidth, halfHeight, angle, x, y);
+      int rx, int ry, int width, int height, int angle, int x, int y) {
+    return isInsideRectangle(rx, ry, 0, 0, width, height, angle, x, y);
   }
 
   // 判断点是否在圆形范围内
